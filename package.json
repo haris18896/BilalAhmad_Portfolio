@@ -9,30 +9,46 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "node --import tsx --test tests/*.test.ts",
+    "check:site": "node scripts/check-site.mjs",
     "seed": "node --env-file=.env.local --import tsx scripts/seed-sanity.ts"
   },
   "dependencies": {
-    "next": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "next-sanity": "latest",
-    "sanity": "latest",
-    "styled-components": "latest",
-    "@sanity/image-url": "latest",
-    "@portabletext/react": "latest",
-    "three": "latest",
-    "@react-three/fiber": "latest",
-    "@react-three/drei": "latest",
-    "lucide-react": "latest"
+    "@fontsource/dm-sans": "^5.3.0",
+    "@fontsource/manrope": "^5.3.0",
+    "@portabletext/react": "^8.0.1",
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.1",
+    "lucide-react": "^1.52.0",
+    "next": "^16.3.8",
+    "next-sanity": "^13.3.4",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "sanity": "^6.17.0",
+    "styled-components": "^6.5.3",
+    "three": "^0.186.1"
   },
   "devDependencies": {
-    "typescript": "latest",
-    "@types/node": "latest",
-    "@types/react": "latest",
-    "@types/react-dom": "latest",
-    "@types/three": "latest",
-    "eslint": "latest",
-    "eslint-config-next": "latest",
-    "tsx": "latest"
+    "@types/node": "^26.6.4",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/three": "^0.186.0",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.3.8",
+    "tsx": "^4.23.15",
+    "typescript": "^6.0.3"
+  },
+  "engines": {
+    "node": ">=22.12"
+  },
+  "overrides": {
+    "adm-zip": "^0.6.1",
+    "smol-toml": "^1.9.0",
+    "undici": "^7.29.1",
+    "typeid-js": {
+      "uuid": "^11.1.1"
+    },
+    "@vercel/frameworks": {
+      "js-yaml": "^3.15.2"
+    }
   }
 }
