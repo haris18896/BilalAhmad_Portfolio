@@ -20,8 +20,7 @@ test('starter content is replaced by published work and stays removed when the e
   assert.deepEqual(resolvePortfolio({ settings: { name: 'Bilal' }, projects: [] }).projects, []);
 });
 test('nullable CMS fields retain defaults, while intentionally cleared text and updated assets are respected', () => {
-  const result = resolvePortfolio({ settings: { about: '', portrait: undefined, heroModelUrl: 'https://cdn.sanity.io/model.glb' }, projects: [] });
+  const result = resolvePortfolio({ settings: { about: '', portrait: undefined }, projects: [] });
   assert.equal(result.settings.about, '');
   assert.equal(result.settings.portrait, '/images/bilal-charcoal.png');
-  assert.equal(result.settings.heroModelUrl, 'https://cdn.sanity.io/model.glb');
 });

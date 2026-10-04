@@ -7,8 +7,6 @@ export function resolvePortfolio(result: { settings: Partial<Settings> | null; p
     const value = result.settings?.[key];
     if (value !== null && value !== undefined) Object.assign(settings, { [key]: value });
   }
-  if (result.settings?.heroModelUrl) settings.heroModelUrl = result.settings.heroModelUrl;
-  if (result.settings?.heroPoster) settings.heroPoster = result.settings.heroPoster;
   const projects = result.projects.filter(project => isCategory(project.category) && project.title && project.slug && project.cover);
-  return { settings, projects: projects.length || result.settings ? projects : starterProjects };
+  return { settings, projects: (projects.length || result.settings ? projects : starterProjects).toSorted((a,b) => (a.order ?? 10) - (b.order ?? 10)) };
 }

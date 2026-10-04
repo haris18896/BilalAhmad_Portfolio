@@ -21,6 +21,9 @@ export const project = defineType({
     defineField({ name: 'year', type: 'string', group: 'details' }),
     defineField({ name: 'location', type: 'string', group: 'details' }),
     defineField({ name: 'role', title: 'Your role', type: 'string', group: 'details' }),
+    defineField({ name: 'studio', title: 'Collaborating studio / credit', type: 'string', group: 'details' }),
+    defineField({ name: 'projectType', title: 'Project type', type: 'string', group: 'details', description: 'For example: Residential design, Café interior, Academic thesis.' }),
+    defineField({ name: 'storyTitle', title: 'Overview heading', type: 'string', group: 'story' }),
     defineField({ name: 'tools', title: 'Tools & services', type: 'array', of: [{ type: 'string' }], options: { layout: 'tags' }, group: 'details' }),
     defineField({ name: 'featured', title: 'Feature on homepage', type: 'boolean', initialValue: false, group: 'details' }),
     defineField({ name: 'order', title: 'Display order', type: 'number', initialValue: 10, description: 'Lower numbers appear first.', group: 'details', validation: r => r.integer().min(0) }),
@@ -29,10 +32,12 @@ export const project = defineType({
       type: 'image', options: { hotspot: true }, fields: [
         { name: 'alt', title: 'Image description', type: 'string', validation: r => r.required() },
         { name: 'caption', title: 'Caption', type: 'string' },
+        { name: 'kind', title: 'Display section', type: 'string', initialValue: 'image', options: { list: [{ title: 'Selected views', value: 'image' }, { title: 'Drawings & documentation', value: 'drawing' }, { title: 'Material & detail', value: 'material' }] } },
+        { name: 'detailZoom', title: 'Detail crop zoom', type: 'number', description: 'Optional thumbnail zoom for a material detail; the lightbox keeps the full source image.', validation: r => r.min(1).max(3) },
       ],
     }] }),
     defineField({ name: 'video', title: 'Project video', type: 'file', options: { accept: 'video/mp4,video/webm' }, group: 'media', description: 'Upload an MP4 or WebM walkthrough. It appears on the project page.' }),
-    defineField({ name: 'model', title: 'Interactive 3D model', type: 'file', options: { accept: '.glb' }, group: 'media', description: 'Upload a self-contained GLB model, preferably under 10 MB. Use a Y-up export with textures embedded.' }),
+    defineField({ ...image('videoPoster', 'Video poster'), group: 'media' }),
     defineField({ name: 'attachments', title: 'Project files', type: 'array', group: 'media', of: [{
       type: 'object', name: 'attachment', fields: [
         { name: 'title', title: 'Download label', type: 'string', validation: r => r.required() },
@@ -58,12 +63,18 @@ export const siteSettings = defineType({
     defineField({ name: 'behance', type: 'url' }),
     defineField({ name: 'linkedin', type: 'url' }),
     defineField({ name: 'instagram', type: 'url' }),
-    defineField({ name: 'heroModel', title: 'Homepage 3D model', type: 'file', options: { accept: '.glb' }, description: 'Optional. Replaces the interactive architectural study with your own GLB.' }),
-    image('heroPoster', 'Homepage model poster'),
-    defineField({ name: 'experience', title: 'Experience & education', type: 'array', of: [{
+    defineField({ name: 'experience', title: 'Experience', type: 'array', of: [{
       type: 'object', name: 'experienceItem', fields: [
         { name: 'title', type: 'string', validation: r => r.required() },
         { name: 'company', type: 'string', validation: r => r.required() },
+        { name: 'period', type: 'string' },
+        { name: 'description', type: 'text', rows: 2 },
+      ], preview: { select: { title: 'title', subtitle: 'company' } },
+    }] }),
+    defineField({ name: 'education', title: 'Education', type: 'array', of: [{
+      type: 'object', name: 'educationItem', fields: [
+        { name: 'title', title: 'Qualification', type: 'string', validation: r => r.required() },
+        { name: 'company', title: 'Institution', type: 'string', validation: r => r.required() },
         { name: 'period', type: 'string' },
         { name: 'description', type: 'text', rows: 2 },
       ], preview: { select: { title: 'title', subtitle: 'company' } },

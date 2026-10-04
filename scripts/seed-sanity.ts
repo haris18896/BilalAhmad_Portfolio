@@ -25,6 +25,7 @@ if (!settingsExist) {
     portrait: { _type: 'image', asset: { _type: 'reference', _ref: portrait._id }, alt: 'Portrait of Bilal Ahmad' },
     cv: { _type: 'file', asset: { _type: 'reference', _ref: cv._id } },
     experience: settings.experience.map(item => ({ ...item, _key: randomUUID(), _type: 'experienceItem' })),
+    education: settings.education?.map(item => ({ ...item, _key: randomUUID(), _type: 'educationItem' })),
   });
   console.log('Imported profile and CV.');
 }
@@ -35,7 +36,7 @@ for (const project of starterProjects) {
   const gallery = [];
   for (const item of project.gallery || []) {
     const asset = await upload(item.url, 'image');
-    gallery.push({ _key: randomUUID(), _type: 'image', asset: { _type: 'reference', _ref: asset._id }, alt: item.alt, caption: item.caption });
+    gallery.push({ _key: randomUUID(), _type: 'image', asset: { _type: 'reference', _ref: asset._id }, alt: item.alt, caption: item.caption, kind: item.kind || 'image', detailZoom: item.detailZoom, ...(item.hotspot ? { hotspot: { _type: 'sanity.imageHotspot', ...item.hotspot, width: .3, height: .3 } } : {}) });
   }
   const attachments = [];
   for (const item of project.attachments || []) {
@@ -45,7 +46,7 @@ for (const project of starterProjects) {
   await client.createIfNotExists({
     _id: id, _type: 'project', title: project.title, slug: { _type: 'slug', current: project.slug },
     category: project.category, summary: project.summary, year: project.year, location: project.location,
-    role: project.role, featured: project.featured || false, order: project.order, tools: project.tools,
+    role: project.role, studio: project.studio, projectType: project.projectType, storyTitle: project.storyTitle, featured: project.featured || false, order: project.order, tools: project.tools,
     cover: { _type: 'image', asset: { _type: 'reference', _ref: cover._id }, alt: project.coverAlt },
     gallery, attachments,
     body: [{ _type: 'block', _key: randomUUID(), style: 'normal', markDefs: [], children: [{ _type: 'span', _key: randomUUID(), text: project.summary, marks: [] }] }],

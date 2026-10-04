@@ -1,31 +1,39 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowDown, ArrowRight, ArrowUpRight, Download, Layers, Box, PenTool } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Download } from 'lucide-react';
 import { getPortfolio } from '@/lib/content';
 import { categories } from '@/lib/types';
 import { ProjectCard } from '@/components/project-card';
-import { ModelViewer } from '@/components/model-viewer';
+import { DisciplineNav, Eyebrow, SectionHeading, ExpertiseSummary } from '@/components/editorial';
 
 export default async function Home() {
   const { settings, projects } = await getPortfolio();
-  const selected = categories.map(c => projects.find(p => p.category === c.slug && p.featured) || projects.find(p => p.category === c.slug)).filter(p => p !== undefined);
-  return <>
-    <section className="hero">
-      <div className="hero-copy"><p className="eyebrow"><span className="tiny-line" />THE PORTFOLIO OF {settings.name.toUpperCase()}</p><h1>{settings.headline}</h1><p className="hero-role">BIM Architect <span>·</span> Architectural Designer <span>·</span> Interior Designer</p><p className="hero-intro">{settings.introduction}</p><Link className="button button-dark" href="/work">Explore the work <ArrowUpRight size={18} /></Link><a className="text-link hero-cv" href={settings.cvUrl} target="_blank" rel="noreferrer">Download CV <Download size={14} /></a></div>
-      <div className="hero-model"><ModelViewer modelUrl={settings.heroModelUrl} poster={settings.heroPoster} /></div>
-      <div className="hero-bottom"><a href="#selected" className="scroll-hint"><ArrowDown size={16} /> SCROLL TO DISCOVER</a><span>IDEAS. SPACES. POSSIBILITIES.</span><span className="edition">PORTFOLIO / 2026</span></div>
+  const featured = categories.flatMap(c => {
+    const entries = projects.filter(p => p.category === c.slug);
+    const project = entries.find(p => p.featured) || entries[0];
+    return project ? [project] : [];
+  });
+  const extras = projects.filter(p => p.featured && !featured.some(f => f._id === p._id)).slice(0, 6-featured.length);
+  return <div className="home-page">
+    <section className="hero section-pad">
+      <div className="hero-copy">
+        <Eyebrow>DESIGNING A BETTER BUILT ENVIRONMENT</Eyebrow>
+        <h1 className="hero-title">{settings.headline === 'Spaces with purpose.' ? <><span>Spaces</span><span>with purpose.</span></> : settings.headline}</h1>
+        <p className="hero-role">BIM Architect · Architectural Designer · Interior Designer</p>
+        <p className="hero-intro">{settings.introduction}</p>
+        <div className="hero-actions"><Link className="button" href="/work">Explore the work <ArrowUpRight size={20} strokeWidth={1.3} /></Link><a className="text-link" href={settings.cvUrl} target="_blank" rel="noreferrer">Download CV <Download size={18} strokeWidth={1.3} /></a></div>
+        <div className="hero-annotation" aria-hidden="true"><span>PEOPLE<br />SPACES<br />IDEAS<br />REALITY</span><span>THROUGH<br />DESIGN</span></div>
+      </div>
+      <div className="hero-portrait"><Image src="/images/bilal-charcoal.png" alt="Portrait of Bilal Ahmad" fill loading="eager" fetchPriority="high" sizes="(max-width: 680px) 90vw, 35vw" /></div>
+      <aside className="hero-aside" aria-hidden="true"><strong>BILAL AHMAD</strong><span className="tiny-line" /><p>ARCHITECTURE<br />INTERIORS<br />BIM<br />DETAILS<br />PEOPLE<br />SPACES</p><span className="aside-note">ALWAYS A<br />MORE THOUGHTFUL<br />TOMORROW</span></aside>
     </section>
-    <section className="selected-section section-pad" id="selected">
-      <div className="section-heading"><div><p className="eyebrow">A SELECTION OF MY WORK</p><h2>Designed with intention.</h2></div><Link className="text-link" href="/work">All projects <ArrowUpRight size={17} /></Link></div>
-      {selected.length ? <div className="project-grid">{selected.map((project, index) => <ProjectCard key={project._id} project={project} index={index} />)}</div> : <p className="empty-state">New projects are on their way. <Link href="/contact">Let’s discuss your next space.</Link></p>}
+    <div className="section-pad"><DisciplineNav /></div>
+    <section className="selected-section section-pad" data-reveal><SectionHeading title="Selected work" href="/work" linkText="View all work" /><div className="project-grid">{[...featured,...extras].map(p => <ProjectCard key={p._id} project={p} />)}</div>{!featured.length && <p className="empty-state">Projects coming soon. Explore the disciplines above.</p>}</section>
+    <section className="about-preview section-pad" data-reveal>
+      <div className="about-photo-column"><h2>Meet Bilal</h2><div className="about-photo"><Image src="/images/bilal-navy.png" alt="Bilal Ahmad" fill sizes="(max-width: 680px) 80vw, 35vw" /></div></div>
+      <div className="about-copy"><span className="tiny-line" /><h3>Design is more than form,<br />it’s coordination.</h3><p>{settings.about}</p><Link className="text-link" href="/about">About Bilal <ArrowRight size={22} strokeWidth={1.2} /></Link></div>
+      <p className="editorial-aside">Architecture,<br />interiors,<br />and digital<br />craft.</p>
     </section>
-    <section className="disciplines section-pad" id="expertise">
-      <div className="discipline-intro"><p className="eyebrow">THREE DISCIPLINES. ONE VISION.</p><h2>From the first idea<br />to the final detail.</h2><p>Creative thinking meets technical clarity. Every discipline brings a different lens to the same ambition: better spaces.</p></div>
-      <div className="discipline-list">{categories.map((category, index) => {
-        const Icon = [PenTool, Box, Layers][index];
-        return <Link key={category.slug} href={`/work/${category.slug}`} className="discipline-row"><span className="discipline-number">{category.number}</span><div><h3>{category.title}</h3><p>{category.description}</p></div><Icon className="discipline-icon" size={28} strokeWidth={1} /><ArrowUpRight size={22} strokeWidth={1} /></Link>;
-      })}</div>
-    </section>
-    <section className="about-preview section-pad"><div className="portrait-wrap"><Image src={settings.portrait} alt={`Portrait of ${settings.name}`} fill sizes="(max-width: 700px) 100vw, 40vw" /><span>THE PERSON BEHIND THE PERSPECTIVE</span></div><div className="about-copy"><p className="eyebrow">A LITTLE ABOUT ME</p><h2>Space is personal.<br />So is my practice.</h2><p>{settings.about}</p><Link href="/about" className="text-link">Meet {settings.name.split(' ')[0]} <ArrowRight size={18} /></Link><div className="about-signature">{settings.name}<small>ARCHITECTURAL DESIGNER & BIM ARCHITECT</small></div></div></section>
-  </>;
+    <section className="home-expertise section-pad" data-reveal><SectionHeading title="Areas of expertise" href="/expertise" linkText="Explore expertise" /><ExpertiseSummary /></section>
+  </div>;
 }

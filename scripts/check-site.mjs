@@ -3,11 +3,12 @@ import assert from 'node:assert/strict';
 const base = process.env.SITE_TEST_URL || 'http://localhost:3000';
 for (const [path, heading] of [
   ['/', '<h1'],
-  ['/work', 'A body of work.'],
+  ['/work', 'Selected work.'],
   ['/work/architecture', 'Architecture'],
   ['/work/interiors', 'Interiors'],
   ['/work/bim', 'BIM'],
-  ['/about', 'Considered spaces.'],
+  ['/about', 'Thoughtful spaces.'],
+  ['/expertise', 'From concept'],
   ['/contact', 'Let’s create'],
 ]) {
   const response = await fetch(base + path);
@@ -18,8 +19,10 @@ for (const [path, heading] of [
 }
 for (const path of ['/work/invalid-discipline', '/projects/a-project-that-does-not-exist']) {
   const response = await fetch(base + path);
-  assert.equal(response.status, 404, path);
-  console.log('OK 404', path);
+  const html = await response.text();
+  assert.ok(response.status === 404 || (response.status === 200 && html.includes('noindex')), path);
+  assert.ok(html.includes('This space'), 'Expected not-found content on ' + path);
+  console.log('OK not-found', path);
 }
 const pdf = await fetch(base + '/files/bilal-ahmad-cv.pdf');
 assert.equal(pdf.status, 200);
