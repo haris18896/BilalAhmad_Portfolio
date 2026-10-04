@@ -1,0 +1,26 @@
+Bilal Ahmad portfolio - design exploration, 4 October 2026
+
+Deliverables: three static visual concepts, not implemented app screens.
+01 Cinematic Monograph: charcoal, ivory, bronze; dramatic architectural scene and portrait.
+02 Material & Light: warm paper, black, terracotta; readable editorial project gallery.
+03 Spatial Atelier (recommended): ivory, charcoal, olive; interactive model, hotspots and layer switching.
+
+All generated architecture, interiors and scale models are illustrative placeholders. Replace with Bilal's real project assets before public use. Generated slogans and decorative details are draft creative copy, not verified biographical statements. In concept 01, decorative coordinates are unverified and should be omitted. Portraits in these previews are AI composites; use original photographs for final identity accuracy.
+
+Content basis: supplied two-page CV, supplied portraits, Google Drive folder listings. Bilal's roles: BIM Architect, Architectural Designer, Interior Designer. CV lists UET architecture education, MAS-DESIGNS and ARCHILANCE experience, Revit/AutoCAD/SketchUp, Navisworks, Lumion/Enscape/D5/V-Ray. CV contains conflicting BIM diploma timing/status and duplicate language entries; reconcile before publishing these fields.
+
+Reference observations: DcFd8Z7CZDT emphasizes cinematic storytelling and motion. DVybvRQiN8s shows an architecture project grid and describes geometric cursor/pixel hover. Dd_rIaZC1ay describes a talking hero, flipping ID card, skills grid and sideways achievements. Observed page captions and selected visual frames, not a full frame-by-frame playback audit.
+
+Proposed later Next.js site: Home, filterable Work, project detail pages, About/experience, Expertise, contact links and Download CV. Case studies should include project type, year, location, Bilal's role, images/drawings and design process once confirmed.
+
+3D direction: load one optimized GLB/glTF model in a client-side viewer. Orbit interaction; clickable hotspots; separately named roof/interior/structural components for layer toggling and exploded view. Keep textual content and navigation ordinary HTML. Use static renders on mobile or devices without WebGL, and respect reduced-motion preferences. No implementation or dependency installation has started.
+
+Needed for project-specific interactive 3D: original Revit/SketchUp/FBX/OBJ model or an optimized GLB/glTF export, textures, permission to display it and confirmed project attribution. Pictures/video cannot provide faithful freely rotatable geometry. A simple abstract architectural model can serve as an interim scene.
+
+Video: not required for these designs or interactive 3D. Existing Drive ANIMATIONS folder contains WhatsApp Video 2024-01-01 at 4.19.06 PM.mp4; content/quality not yet reviewed. Prefer evaluating it before commissioning new footage. If a cinematic hero is selected, use an 8-12 second seamless silent architectural loop, 16:9, 1920x1080, slow controlled camera movement, no text/logos, no abrupt cuts, no building geometry changes, plus a matching still poster. Use an actual project render as reference. AI animation is optional atmospheric media and should preserve the real design.
+
+Optional image-to-video prompt: Use the supplied architectural render as the exact visual reference. Produce a 10-second seamless cinematic loop with an extremely slow smooth camera push and subtle light movement. Preserve building geometry, materials, furniture and landscaping exactly. No new objects, people, text, logos, cuts or morphing. Return the framing to its starting position at the end. 16:9, 1920x1080, silent.
+
+Google Drive source: https://drive.google.com/drive/folders/1wVwuAuVUCMSvEsyOWWFPy9o7dTNmU5kN
+Original CV: /Users/harisahmadkhan/Downloads/AR.BILAL AHMAD CV.pdf
+Prompts retained in generation-prompts.txt.
